@@ -18,16 +18,21 @@ class RegisterViewViewModel: ObservableObject{
     init() {}
     
     func RegisterUser() {
-        print("callll")
-        
-        guard Validate() else {
-            return
-        }
-        
-        //register user
-        Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
-            guard let userId = result?.user.uid else {
+            
+            guard Validate() else {
                 return
+            }
+            print(name, email)
+            //register user
+            Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
+                
+                if let error = error {
+                    print("error is", error.localizedDescription)
+                    return
+                }
+                
+                guard let userId = result?.user.uid else {
+                    return
             }
             
             self?.insertUserRecord(id: userId)
@@ -35,6 +40,7 @@ class RegisterViewViewModel: ObservableObject{
     }
     
     private func insertUserRecord (id: String) {
+        print("calll")
         let newUser = User(id: id, name: name, email: email, joined: Date().timeIntervalSince1970)
         
         let db = Firestore.firestore()
@@ -51,11 +57,11 @@ class RegisterViewViewModel: ObservableObject{
             return false
         }
         
-//        guard !email.contains("@") && !email.contains(".") else{
-//            print("email")
-//            errorMessage = "Please provide valid email."
-//            return false
-//        }
+        guard email.contains("@") && email.contains(".") else{
+            print("email")
+            errorMessage = "Please provide valid email."
+            return false
+        }
         
         guard password.count >= 6 else {
             print("len")

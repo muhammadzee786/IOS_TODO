@@ -20,10 +20,13 @@ struct RegisterView: View {
                 VStack{
                     TextField("Full Name", text: $registerViewModel.name)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .autocapitalization(.none)
                     TextField("Email Address", text: $registerViewModel.email)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .autocapitalization(.none)
                     SecureField("password", text: $registerViewModel.password)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .autocapitalization(.none)
                     
                     TLButton(title: "Register", background: .orange) {
                         registerViewModel.RegisterUser()

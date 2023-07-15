@@ -8,13 +8,34 @@
 import SwiftUI
 
 struct ToDoListItemView: View {
+    @StateObject var profileViewModel = ProfileViewViewModel()
+    
+    let item: ToDoListItem
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            VStack(alignment: .leading) {
+                Text(item.title)
+//                    .font(.title)
+                
+                Text("\(Date(timeIntervalSince1970: item.dueDate).formatted(date: .abbreviated, time: .shortened))")
+                    .foregroundColor(Color(.secondaryLabel))
+            }
+            
+            Spacer()
+            
+            Button {
+                profileViewModel.toggleIsDone(item: item)
+            } label: {
+                Image(systemName: item.isDone ? "checkmark.circle.fill" : "circle")
+            }
+
+        }
     }
 }
 
 struct ToDoListItemView_Previews: PreviewProvider {
     static var previews: some View {
-        ToDoListItemView()
+        ToDoListItemView(item: .init(id: "123", title: "dummy", dueDate: Date().timeIntervalSince1970, createdDate: Date().timeIntervalSince1970, isDone: false))
     }
 }

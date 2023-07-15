@@ -18,6 +18,7 @@ struct TodoAppApp: App {
     var body: some Scene {
         WindowGroup {
             MainView()
+                .navigationViewStyle(StackNavigationViewStyle())
         }
     }
 }
